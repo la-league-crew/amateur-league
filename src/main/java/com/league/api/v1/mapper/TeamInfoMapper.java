@@ -15,5 +15,5 @@ public interface TeamInfoMapper {
     TeamInfoDto teamInfoToTeamInfoDto(TeamInfo teamInfo);
 
     @Mapping(source = "id", target = "id")
-    TeamInfo teamInfoDtoToTeamInfo(TeamInfo teamInfo);
+    TeamInfo teamInfoDtoToTeamInfo(TeamInfoDto teamInfoDto);
 }
