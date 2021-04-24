@@ -4,16 +4,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class Round extends BaseEntity{
+@Entity
+@Table(name = "round")
+public class Round extends BaseEntity implements Serializable
+{
 
+    @Column(name = "round_no")
     private Integer roundNo;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "league_id")
     private League league;
-    private List<Match> matches= new ArrayList<>();
+
+    @OneToMany(mappedBy = "round",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<Match> matches= new HashSet<>();
 
 }
