@@ -55,6 +55,7 @@ class LeagueMapperTest {
         leagueDto.setId(1L);
         Set<RoundDto> roundDtoSet= new HashSet<>();
         roundDtoSet.add(new RoundDto());
+        roundDtoSet.add(new RoundDto());
         leagueDto.setRounds(roundDtoSet);
         Set<TeamDto> teamDtoSet= new HashSet<>();
         teamDtoSet.add(new TeamDto());
@@ -69,5 +70,18 @@ class LeagueMapperTest {
         Assertions.assertEquals(league.getRounds().size(), leagueDto.getRounds().size());
         Assertions.assertEquals(league.getTeams().size(), leagueDto.getTeams().size());
         Assertions.assertEquals(league.getSeason().getId(), leagueDto.getSeasonId());
+    }
+
+    @Test
+    void testLeagueToLeagueDtoWithoutId(){
+//        Given
+        League league= new League();
+        league.setTitle("Some league");
+
+//        When
+        LeagueDto leagueDto= leagueMapper.leagueToLeagueDto(league);
+
+//        Then
+        Assertions.assertNotEquals(leagueDto.getId(),1);
     }
 }

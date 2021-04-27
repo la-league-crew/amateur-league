@@ -80,4 +80,19 @@ class SeasonMapperTest {
         Assertions.assertEquals(season.getLeagues().size(), seasonDto.getLeagues().size());
 
     }
+
+    @Test
+    void testGivenSeasonNull(){
+
+        SeasonDto seasonDto= seasonMapper.seasonToSeasonDto(null);
+
+        Assertions.assertNull(seasonDto);
+    }
+
+    @Test
+    void testGivenSeasonDtoNull(){
+        Season season= seasonMapper.seasonDtoToSeason(null);
+
+        Assertions.assertNull(season);
+    }
 }
