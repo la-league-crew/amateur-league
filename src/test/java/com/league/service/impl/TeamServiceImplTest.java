@@ -108,4 +108,21 @@ class TeamServiceImplTest {
 //        Then
         Mockito.verify(teamRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
+
+    @Test
+    void findByTeamTitleLike() {
+//        Given
+        Team team= new Team();
+        team.setId(1L);
+        team.setTeamTitle("FC Juventus");
+
+        Mockito.when(teamRepository.findByTeamTitleLike(Mockito.anyString())).thenReturn(Optional.of(team));
+
+//        When
+        TeamDto teamDto= teamService.findByTeamTitleLike("tus");
+
+//        Then
+        Assertions.assertEquals(teamDto.getId(), 1);
+        Assertions.assertEquals(teamDto.getTeamTitle(),"FC Juventus");
+    }
 }

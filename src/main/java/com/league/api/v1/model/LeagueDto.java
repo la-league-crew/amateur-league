@@ -16,6 +16,7 @@ public class LeagueDto
     private String title;
     private String sport;
     private Long seasonId;
+    private boolean isStarted;
     private Set<TeamDto> teams= new HashSet<>();
     private Set<RoundDto> rounds= new HashSet<>();
 }

@@ -7,6 +7,7 @@ import com.league.repositories.TeamRepository;
 import com.league.service.TeamService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,12 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamDto findById(Long aLong) {
         return teamMapper.teamToTeamDto(teamRepository.findById(aLong).orElse(null));
+    }
+
+    @Override
+    public TeamDto findByTeamTitleLike(String name) {
+        Optional<Team> teamOptional= teamRepository.findByTeamTitleLike("%"+name+"%");
+        return teamOptional.map(teamMapper::teamToTeamDto).orElse(null);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.league.service.impl;
 
 import com.league.api.v1.mapper.SeasonMapper;
+import com.league.api.v1.model.LeagueDto;
 import com.league.api.v1.model.SeasonDto;
 import com.league.domain.Season;
 import com.league.repositories.SeasonRepository;
 import com.league.service.SeasonService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,5 +46,20 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     public void deleteById(Long aLong) {
         seasonRepository.deleteById(aLong);
+    }
+
+    @Override
+    public boolean addLeague(Long seasonId, LeagueDto leagueDto) {
+        Optional<Season> seasonOptional= seasonRepository.findById(seasonId);
+
+        if(seasonOptional.isPresent()){
+            SeasonDto seasonDto= seasonMapper.seasonToSeasonDto(seasonOptional.get());
+            if(seasonDto.getStartDate().compareTo(LocalDate.now())< 0)
+                return false;
+            seasonDto.getLeagues().add(leagueDto);
+            seasonRepository.save(seasonMapper.seasonDtoToSeason(seasonDto));
+            return true;
+        }
+        return false;
     }
 }
