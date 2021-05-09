@@ -36,6 +36,11 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
+    public MatchDto update(Long aLong, MatchDto matchDto) {
+        return null;
+    }
+
+    @Override
     public MatchDto findById(Long aLong) {
         return matchMapper.matchToMatchDto(matchRepository.findById(aLong).orElse(null));
     }

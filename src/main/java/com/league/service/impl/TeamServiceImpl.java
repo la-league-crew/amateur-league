@@ -36,6 +36,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public TeamDto update(Long aLong, TeamDto teamDto) {
+        return null;
+    }
+
+    @Override
     public TeamDto findById(Long aLong) {
         return teamMapper.teamToTeamDto(teamRepository.findById(aLong).orElse(null));
     }

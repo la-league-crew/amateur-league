@@ -42,6 +42,11 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
+    public RoundDto update(Long aLong, RoundDto roundDto) {
+        return null;
+    }
+
+    @Override
     public RoundDto findById(Long aLong) {
         return roundMapper.roundToRoundDto(roundRepository.findById(aLong).orElse(null));
     }

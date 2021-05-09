@@ -39,6 +39,20 @@ public class SeasonServiceImpl implements SeasonService {
     }
 
     @Override
+    public SeasonDto update(Long aLong, SeasonDto seasonDto) {
+        return seasonRepository.findById(aLong)
+                .map(season -> {
+                    if(seasonDto.getStartDate()!= null)
+                        season.setStartDate(seasonDto.getStartDate());
+                    if(seasonDto.getEndDate()!= null)
+                        season.setEndDate(seasonDto.getEndDate());
+                    Season savedSeason= seasonRepository.save(season);
+                    return seasonMapper.seasonToSeasonDto(savedSeason);
+                })
+                .orElseThrow(RuntimeException:: new);
+    }
+
+    @Override
     public SeasonDto findById(Long aLong) {
         return seasonMapper.seasonToSeasonDto(seasonRepository.findById(aLong).orElse(null));
     }

@@ -37,6 +37,20 @@ public class LeagueServiceImpl implements LeagueService {
     }
 
     @Override
+    public LeagueDto update(Long aLong, LeagueDto leagueDto) {
+        return leagueRepository.findById(aLong)
+                .map(league -> {
+                    if(leagueDto.getTitle()!= null)
+                        league.setTitle(leagueDto.getTitle());
+                    if(leagueDto.getSport()!= null)
+                        league.setSport(leagueDto.getSport());
+                    League savedLeague= leagueRepository.save(league);
+                    return leagueMapper.leagueToLeagueDto(savedLeague);
+
+                }).orElseThrow(RuntimeException:: new);
+    }
+
+    @Override
     public LeagueDto findById(Long aLong) {
         return leagueMapper.leagueToLeagueDto(leagueRepository.findById(aLong).orElse(null));
     }
