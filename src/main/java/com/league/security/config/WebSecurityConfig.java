@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final JwtParameters jwtParameters;
   private final SecretKey secretKey;
   private final JwtHelper jwtHelper;
-
+  private final LeagueAuthenticationEventPublisher leagueAuthenticationEventPublisher;
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -48,5 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     provider.setPasswordEncoder(new BCryptPasswordEncoder());
     provider.setUserDetailsService(leagueUserService);
     auth.authenticationProvider(provider);
+    auth.authenticationEventPublisher(leagueAuthenticationEventPublisher);
   }
 }

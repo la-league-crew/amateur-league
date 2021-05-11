@@ -18,4 +18,15 @@ public class LeagueUserServiceImpl implements LeagueUserService {
     return userRepo.findByEmail(email)
         .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
   }
+
+  @Override
+  public void disableUser(String email) {
+    userRepo
+        .findByEmail(email)
+        .ifPresent(
+            leagueUser -> {
+              leagueUser.setEnabled(false);
+              userRepo.save(leagueUser);
+            });
+  }
 }
