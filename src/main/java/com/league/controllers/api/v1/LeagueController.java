@@ -44,6 +44,6 @@ public class LeagueController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteById(@PathVariable("id") Long leagueId){
-        leagueService.findById(leagueId);
+        leagueService.deleteById(leagueId);
     }
 }
