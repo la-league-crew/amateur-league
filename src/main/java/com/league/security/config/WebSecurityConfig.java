@@ -1,11 +1,15 @@
 package com.league.security.config;
 
-import com.league.security.jwt.JwtFilter;
+import com.league.security.jwt.JwtCredentialsDeviceAndLocationFilter;
 import com.league.security.jwt.JwtHelper;
 import com.league.security.jwt.JwtParameters;
 import com.league.security.jwt.JwtVerifier;
 import javax.crypto.SecretKey;
+
+import com.league.service.DeviceAndLocationService;
+import com.maxmind.geoip2.DatabaseReader;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +19,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 @Configuration
 @AllArgsConstructor
@@ -26,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final SecretKey secretKey;
   private final JwtHelper jwtHelper;
   private final LeagueAuthenticationEventPublisher leagueAuthenticationEventPublisher;
+  private final DeviceAndLocationService deviceAndLocationService;
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -33,10 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .addFilter(
-            new JwtFilter(jwtParameters, authenticationManager(),
-                jwtHelper))
+            new JwtCredentialsDeviceAndLocationFilter(jwtParameters, authenticationManager(),
+                jwtHelper,deviceAndLocationService))
         .addFilterAfter(new JwtVerifier(jwtParameters, secretKey, jwtHelper),
-            JwtFilter.class)
+            JwtCredentialsDeviceAndLocationFilter.class)
         .authorizeRequests()
         .anyRequest()
         .authenticated();
