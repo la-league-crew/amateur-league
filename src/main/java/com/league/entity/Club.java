@@ -4,11 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "club_table")
@@ -16,7 +12,7 @@ public class Club {
 
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	private String name;
 	private String description;
@@ -43,14 +39,14 @@ public class Club {
 	@Column(columnDefinition = "int default 0")
 	private int points;
 	
-	@ManyToOne
-	@JoinColumn(name = "round_id")
-	@JsonIgnore
-	private Round round;
-	
-	@ManyToOne
-	@JoinColumn(name = "season_id")
-	private Season season;
+//	@ManyToOne
+//	@JoinColumn(name = "round_id")
+//	@JsonIgnore
+//	private Round round;
+//	
+//	@ManyToOne
+//	@JoinColumn(name = "season_id")
+//	private Season season;
 	
 	public Club() {
 		super();
@@ -61,11 +57,11 @@ public class Club {
 		this.description = description;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -149,11 +145,11 @@ public class Club {
 		this.points = points;
 	}
 
-	public Round getRound() {
-		return round;
-	}
-
-	public void setRound(Round round) {
-		this.round = round;
-	}	
+//	public Round getRound() {
+//		return round;
+//	}
+//
+//	public void setRound(Round round) {
+//		this.round = round;
+//	}	
 }

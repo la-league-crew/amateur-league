@@ -8,15 +8,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "representation_table")
 public class ClubRepresentation {
 
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
-	private long clubId;
+	private Long clubId;
 	private String clubName;
 	
 	@Column(columnDefinition = "int default 0") 
@@ -40,6 +42,10 @@ public class ClubRepresentation {
 	@Column(columnDefinition = "int default 0")
 	private int points;
 	
+	@Column(columnDefinition = "int default 0")
+	private int initialRank;
+	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "season_id")
 	private Season season;
@@ -52,20 +58,24 @@ public class ClubRepresentation {
 		this.clubId = clubId;
 		this.clubName = clubName;
 	}
+	
+	public ClubRepresentation(int initialRank) {
+		this.initialRank = initialRank;
+	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public long getClubId() {
+	public Long getClubId() {
 		return clubId;
 	}
 
-	public void setClubId(long clubId) {
+	public void setClubId(Long clubId) {
 		this.clubId = clubId;
 	}
 
@@ -139,5 +149,27 @@ public class ClubRepresentation {
 
 	public void setSeason(Season season) {
 		this.season = season;
+	}
+
+	public int getInitialRank() {
+		return initialRank;
+	}
+
+	public void setInitialRank(int initialRank) {
+		this.initialRank = initialRank;
 	}	
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "ClubRepresentation [clubId=" + clubId + ", clubName=" + clubName + ", initialRank=" + initialRank + "]";
+	}
+
+	//test case
+	public ClubRepresentation addInitialRank(int rank) {
+		this.setInitialRank(rank);
+		return this;
+	}
 }
