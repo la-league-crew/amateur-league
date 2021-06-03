@@ -1,6 +1,7 @@
 package com.league.entity;
 
 import com.google.common.collect.Sets;
+import com.league.helpers.enums.LeagueAuthProvider;
 import com.league.helpers.enums.LeagueUserRole;
 import java.util.Collection;
 import javax.persistence.Column;
@@ -46,6 +47,8 @@ public class LeagueUser implements UserDetails {
   private Boolean locked = false;
   @Builder.Default
   private Boolean enabled = false;
+  @Enumerated(EnumType.STRING)
+  private LeagueAuthProvider authProvider;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -7,9 +7,7 @@ import com.league.security.jwt.JwtVerifier;
 import javax.crypto.SecretKey;
 
 import com.league.service.DeviceAndLocationService;
-import com.maxmind.geoip2.DatabaseReader;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,10 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.io.IOException;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @AllArgsConstructor
@@ -35,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final JwtHelper jwtHelper;
   private final LeagueAuthenticationEventPublisher leagueAuthenticationEventPublisher;
   private final DeviceAndLocationService deviceAndLocationService;
+  private final  AuthenticationSuccessHandler authenticationSuccessHandler;
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -48,7 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             JwtCredentialsDeviceAndLocationFilter.class)
         .authorizeRequests()
         .anyRequest()
-        .authenticated();
+        .authenticated()
+            .and()
+            .oauth2Login()
+            .successHandler(authenticationSuccessHandler);
   }
 
   @Override

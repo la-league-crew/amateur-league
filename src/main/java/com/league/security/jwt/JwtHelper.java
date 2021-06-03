@@ -24,6 +24,13 @@ public class JwtHelper {
     return createNewToken(claims);
   }
 
+  public String generateToken(LeagueUser leagueUser) {
+    Claims claims = Jwts.claims();
+    claims.put("email", leagueUser.getEmail() );
+    claims.put("role", leagueUser.getUserRole());
+    return createNewToken(claims);
+  }
+
   public String refreshToken(Claims claims) {
     return createNewToken(claims);
   }
